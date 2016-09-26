@@ -1,6 +1,16 @@
 <nav class="navigation">
   <section class="container">
     <h4 class="float-left">My Editor</h4>
+
+    <h4 class="float-right">
+      {{#if isSaving}}
+        Saving...
+      {{else if isErrored}}
+        <a {{action "resaveModel"}}>
+          Failed Try Again?
+        </a>
+      {{/if}}
+    </h4>
   </section>
 </nav>
 <div class="container">
@@ -11,9 +21,13 @@
         type="text"
         name="title"
         value={{post.title}}
+        oninput={{action 'updateTitle' value="target.value"}}
       >
       <label>Body</label>
-      {{medium-editor text=model.text}}
+      {{medium-editor
+        text=model.text
+        updateText=(action 'updateText')
+      }}
     </div>
   </div>
 </div>
