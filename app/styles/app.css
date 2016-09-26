@@ -1,0 +1,10 @@
+.navigation {
+  border-bottom: .1rem solid #9b4dca;
+  height: 5rem;
+}
+
+.editor:focus {
+  border: .1rem solid #9b4dca;
+  border-radius: .4rem;
+  outline: 0
+}

@@ -1,0 +1,19 @@
+<nav class="navigation">
+  <section class="container">
+    <h4 class="float-left">My Editor</h4>
+  </section>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="column">
+      <label>Title</label>
+      <input
+        type="text"
+        name="title"
+        value={{post.title}}
+      >
+      <label>Body</label>
+      {{medium-editor text=model.text}}
+    </div>
+  </div>
+</div>

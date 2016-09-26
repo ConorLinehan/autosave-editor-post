@@ -22,6 +22,8 @@ module.exports = function(defaults) {
 
   app.import('bower_components/medium-editor/dist/css/medium-editor.min.css');
   app.import('bower_components/medium-editor/dist/js/medium-editor.min.js');
-  
+  app.import('bower_components/medium-editor/dist/css/themes/default.css');
+  app.import('bower_components/milligram/dist/milligram.css');
+
   return app.toTree();
 };
