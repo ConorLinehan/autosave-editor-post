@@ -1,33 +1,26 @@
 <nav class="navigation">
   <section class="container">
     <h4 class="float-left">My Editor</h4>
-
-    <h4 class="float-right">
-      {{#if isSaving}}
-        Saving...
-      {{else if isErrored}}
-        <a {{action "resaveModel"}}>
-          Failed Try Again?
-        </a>
-      {{/if}}
-    </h4>
+    {{#if saveModelTask.isRunning}}
+      <h4 class="float-right">Saving..</h4>
+    {{else if saveModelTask.last.error}}
+      {{log saveModelTask.last.error}}
+      <a {{action (perform saveModelTask)}} class="float-right">
+        <h4>Failed Retry?</h4>
+      </a>
+    {{/if}}
   </section>
 </nav>
 <div class="container">
   <div class="row">
     <div class="column">
-      <label>Title</label>
-      <input
-        type="text"
-        name="title"
-        value={{post.title}}
-        oninput={{action 'updateTitle' value="target.value"}}
-      >
       <label>Body</label>
       {{medium-editor
         text=model.text
-        updateText=(action 'updateText')
-      }}
+        updateText=
+        (pipe-action
+        (action (mut model.text))
+        (perform updatedModelTask))}}
     </div>
   </div>
 </div>

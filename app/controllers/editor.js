@@ -1,44 +1,23 @@
 import Ember from 'ember';
+import { task, timeout } from 'ember-concurrency';
+
+const DEBOUNCE_TIME = 500;
+const FIVE_SECONDS = 5000;
 
 export default Ember.Controller.extend({
-  actions: {
-    updateTitle(newTitle) {
-      let model = this.get('model');
-      model.set('title', newTitle);
-      this.set('isSaving', true);
-      this.set('isErrored', false);
-      model.save()
-      .catch(() =>{
-        this.set('isErrored', true);
-      })
-      .finally(() =>{
-        this.set('isSaving', false);
-      })
-    },
+  saveModelTask: task(function *() {
+    yield this.get('model').save();
+  }).keepLatest(),
 
-    updateText(newText) {
-      let model = this.get('model');
-      model.set('text', newText);
-      this.set('isSaving', true);
-      this.set('isErrored', false);
-      model.save()
-      .catch(() =>{
-        this.set('isErrored', true);
-      })
-      .then(() =>{
-        this.set('isSaving', false);
-      })
-    },
+  forceSaveTask: task(function *() {
+    yield timeout(FIVE_SECONDS);
+    this.get('saveModelTask').perform();
+  }).drop(),
 
-    resaveModel() {
-      this.set('isSaving', true);
-      this.get('model').save()
-      .then(() =>{
-        this.set('isErrored', false);
-      })
-      .finally(() =>{
-        this.set('isSaving', false);
-      });
-    }
-  }
+  updatedModelTask: task(function *() {
+    this.get('forceSaveTask').perform();
+    yield timeout(DEBOUNCE_TIME);
+    this.get('forceSaveTask').cancelAll();
+    this.get('saveModelTask').perform();
+  }).restartable()
 });

@@ -7,9 +7,7 @@ export default function() {
   this.patch('/posts/:id');
 
   // Uncomment to fake error case
-  /*
-  this.patch('/posts/:id', () =>{
-    return new Mirage.Response(500);
-  });
-   */
+  // this.patch('/posts/:id', () =>{
+  //   return new Mirage.Response(500);
+  // });
 }
