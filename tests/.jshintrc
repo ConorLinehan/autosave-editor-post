@@ -10,6 +10,7 @@
     "console",
     "visit",
     "exists",
+    "server",
     "fillIn",
     "click",
     "keyEvent",
@@ -21,7 +22,8 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName"
+    "currentRouteName",
+    "MediumEditor"
   ],
   "node": false,
   "browser": false,
